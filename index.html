@@ -3,536 +3,618 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLAYZONE | Game & Movie Hub</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLAYZONE - Ultimate Arcade</title>
 <style>
 :root {
-  --bg: #090914;
-  --panel: #151527;
-  --card: #1d1d35;
-  --text: #ffffff;
-  --muted: #aaaac0;
-  --accent: #9b65ff;
-  --accent2: #4b9cff;
-  --border: #30304b;
+  --bg:#090914;--panel:#151527;--card:#20203a;
+  --text:#fff;--muted:#aaaac0;--accent:#9b65ff;
+  --border:#34344d;
 }
-
 body.light {
-  --bg: #f3f2fa;
-  --panel: #ffffff;
-  --card: #e8e5f5;
-  --text: #171526;
-  --muted: #666477;
-  --border: #d5d1e5;
+  --bg:#f3f2fa;--panel:#fff;--card:#e8e5f5;
+  --text:#171526;--muted:#666477;--border:#d5d1e5;
 }
-
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;transition:.25s;
 }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  transition: background .3s, color .3s;
+button,input{font:inherit}
+button{cursor:pointer}
+header{
+  padding:17px 5%;background:var(--panel);
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
 }
-
-header {
-  padding: 22px 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  background: var(--panel);
-  border-bottom: 1px solid var(--border);
+.logo{font-size:26px;font-weight:900;letter-spacing:2px}
+.logo span{color:var(--accent)}
+.btn,.filter{
+  padding:10px 14px;background:var(--card);
+  color:var(--text);border:1px solid var(--border);
+  border-radius:10px;
 }
-
-.logo {
-  font-size: 26px;
-  font-weight: 900;
-  letter-spacing: 2px;
+.btn:hover,.filter:hover{border-color:var(--accent)}
+.hero{text-align:center;padding:45px 15px 15px}
+.hero h1{font-size:clamp(34px,7vw,58px);margin:0}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted)}
+.search{
+  display:block;width:min(620px,90%);margin:20px auto;
+  padding:15px;border-radius:12px;border:1px solid var(--border);
+  background:var(--panel);color:var(--text);
 }
-
-.logo span {
-  color: var(--accent);
+.profile{
+  width:min(620px,92%);margin:15px auto 30px;
+  padding:13px;border-radius:12px;background:var(--panel);
+  display:flex;gap:9px;align-items:center;flex-wrap:wrap;
 }
-
-button, input {
-  font: inherit;
+.profile input{
+  flex:1;min-width:120px;padding:10px;
+  border:1px solid var(--border);border-radius:8px;
+  background:var(--bg);color:var(--text);
 }
-
-button {
-  cursor: pointer;
+main{max-width:1100px;margin:auto;padding:15px 20px}
+.heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+  margin:30px 0 15px;
 }
-
-.small-btn, .filter-btn {
-  border: 1px solid var(--border);
-  color: var(--text);
-  background: var(--card);
-  border-radius: 10px;
-  padding: 10px 14px;
+.heading h2{margin:0}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filter.active{background:var(--accent);color:white}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(205px,1fr));
+  gap:15px;
 }
-
-.small-btn:hover, .filter-btn:hover {
-  border-color: var(--accent);
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:15px;padding:18px;display:flex;
+  flex-direction:column;min-height:185px;
+  animation:appear .3s ease;transition:.2s;
 }
-
-.hero {
-  text-align: center;
-  padding: 65px 20px 35px;
-  animation: appear .7s ease;
+.card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.emoji{font-size:35px}
+.card h3{margin:10px 0 6px}
+.card p{color:var(--muted);font-size:14px;flex:1;line-height:1.5}
+.actions{display:flex;gap:8px;margin-top:10px}
+.play{
+  flex:1;text-align:center;text-decoration:none;
+  border:0;border-radius:9px;padding:11px;
+  color:white;font-weight:bold;
+  background:linear-gradient(100deg,#9258ff,#438cff);
 }
-
-.hero h1 {
-  font-size: clamp(34px, 7vw, 58px);
-  margin: 0 0 12px;
+.star{
+  background:var(--panel);color:var(--text);
+  border:1px solid var(--border);
+  border-radius:9px;padding:9px 12px;
 }
-
-.hero h1 span {
-  color: var(--accent);
+.star.saved{color:#ffd34e}
+.empty{color:var(--muted);display:none}
+footer{
+  text-align:center;padding:30px 15px;color:var(--muted);
+  border-top:1px solid var(--border);margin-top:40px;font-size:13px;
 }
-
-.hero p {
-  color: var(--muted);
+#player{
+  display:none;position:fixed;inset:0;z-index:10;
+  background:#080811;overflow:auto;padding:14px;
 }
-
-.search-wrap {
-  max-width: 620px;
-  margin: 25px auto;
-  padding: 0 15px;
+.playerbox{max-width:650px;margin:12px auto}
+.playerhead{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;margin-bottom:14px;
 }
-
-#search {
-  width: 100%;
-  padding: 17px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--panel);
-  color: var(--text);
-  outline: none;
+#game{
+  background:#17172b;border:1px solid #44445e;
+  border-radius:14px;padding:15px;min-height:300px;text-align:center;
 }
-
-#search:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 15px #9b65ff55;
+#game h2{margin-top:4px}
+#game button{
+  background:#30304d;color:white;border:1px solid #555577;
+  border-radius:9px;padding:11px 15px;margin:4px;
 }
-
-.profile {
-  max-width: 620px;
-  margin: 20px auto;
-  padding: 15px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
+#game button.primary{background:#8954ee;border:0}
+#game canvas{max-width:100%;background:#080811;border-radius:10px}
+#game .board{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:6px;max-width:340px;margin:15px auto;
 }
-
-.profile input {
-  flex: 1;
-  min-width: 130px;
-  padding: 11px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  border-radius: 9px;
+.tile{
+  aspect-ratio:1;display:grid;place-items:center;
+  border-radius:8px;background:#343452;
+  font-size:clamp(17px,5vw,26px);font-weight:bold;
 }
-
-main {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
+#game .ttt{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  max-width:330px;margin:15px auto;
 }
-
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 30px 0 18px;
+#game .ttt button{aspect-ratio:1;font-size:35px;margin:3px}
+#game .memory{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:7px;max-width:380px;margin:15px auto;
 }
-
-.section-heading h2 {
-  margin: 0;
+#game .memory button{aspect-ratio:1;font-size:25px;padding:5px}
+.controls{margin:12px auto;max-width:230px}
+.controls button{min-width:55px}
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
 }
-
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.filter-btn.active {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 16px;
-}
-
-.item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px;
-  min-height: 170px;
-  display: flex;
-  flex-direction: column;
-  animation: appear .4s ease;
-  transition: transform .2s, border-color .2s;
-}
-
-.item:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent);
-}
-
-.item .emoji {
-  font-size: 34px;
-}
-
-.item h3 {
-  margin: 12px 0 7px;
-}
-
-.item p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.5;
-  flex: 1;
-}
-
-.item-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.open-btn {
-  flex: 1;
-  text-align: center;
-  text-decoration: none;
-  color: white;
-  background: linear-gradient(100deg, var(--accent), var(--accent2));
-  padding: 11px;
-  border-radius: 9px;
-  font-weight: bold;
-}
-
-.favorite-btn {
-  background: var(--panel);
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 10px 12px;
-  border-radius: 9px;
-}
-
-.favorite-btn.saved {
-  color: #ffd34e;
-  border-color: #ffd34e;
-}
-
-.empty {
-  color: var(--muted);
-  padding: 20px 0;
-  display: none;
-}
-
-footer {
-  text-align: center;
-  padding: 35px 15px;
-  margin-top: 45px;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 13px;
-}
-
-@keyframes appear {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media(max-width: 500px) {
-  header {
-    padding: 16px;
-  }
-  .logo {
-    font-size: 22px;
-  }
-  main {
-    padding: 15px;
-  }
-  .grid {
-    grid-template-columns: 1fr;
-  }
+@media(max-width:500px){
+  header{padding:14px}
+  main{padding:10px 14px}
+  .grid{grid-template-columns:1fr}
+  #game{padding:10px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
   <div class="logo">PLAY<span>ZONE</span></div>
-  <button class="small-btn" id="themeBtn">☀️ Light mode</button>
+  <button class="btn" id="theme">☀️ Light mode</button>
 </header>
 
 <section class="hero">
   <h1>WELCOME TO <span>PLAYZONE</span></h1>
-  <p>Your entertainment hub. Find something fun to play or watch.</p>
+  <p>Your own gaming and entertainment universe.</p>
 </section>
 
-<div class="search-wrap">
-  <input id="search" type="search"
-    placeholder="🔎 Search games and movies...">
-</div>
+<input class="search" id="search" placeholder="🔎 Search games and movies...">
 
 <div class="profile">
-  <span>👤 Profile:</span>
-  <input id="profileName" maxlength="24" placeholder="Enter your username">
-  <button class="small-btn" id="saveProfile">Save</button>
-  <span id="profileMessage"></span>
+  👤 <strong id="welcome">Player</strong>
+  <input id="username" maxlength="24" placeholder="Choose a username">
+  <button class="btn" id="saveName">Save profile</button>
 </div>
 
 <main>
+  <section>
+    <div class="heading"><h2>⭐ Your Favorites</h2></div>
+    <div class="grid" id="favorites"></div>
+    <p class="empty" id="noFavorites">No favorites yet. Tap ☆ to save something!</p>
+  </section>
 
-  <div class="section-heading">
-    <h2>⭐ Your Favorites</h2>
-  </div>
-  <div class="grid" id="favorites"></div>
-  <p class="empty" id="emptyFavorites">No favorites yet. Tap ☆ on an item to save it!</p>
+  <section>
+    <div class="heading"><h2>🎮 PLAYZONE Arcade</h2></div>
+    <div class="filters">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="arcade">Arcade</button>
+      <button class="filter" data-filter="puzzle">Puzzle</button>
+      <button class="filter" data-filter="classic">Classic</button>
+    </div>
+    <div class="grid" id="games"></div>
+  </section>
 
-  <div class="section-heading">
-    <h2>🎮 Game Library</h2>
-  </div>
+  <section>
+    <div class="heading"><h2>🐻 Five Nights at Freddy's Collection</h2></div>
+    <p style="color:var(--muted)">Official game listings. Select a game to view it.</p>
+    <div class="grid" id="fnaf"></div>
+  </section>
 
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="games">Games</button>
-    <button class="filter-btn" data-filter="movies">Movies</button>
-  </div>
-
-  <div class="grid" id="library"></div>
-  <p class="empty" id="emptySearch">No results found. Try another search.</p>
-
+  <section>
+    <div class="heading"><h2>🍿 Movie Directory</h2></div>
+    <div class="grid" id="movies"></div>
+  </section>
 </main>
 
 <footer>
-  <p>PLAYZONE © 2026</p>
-  <p>Independent entertainment directory. External websites have their own rules and content.</p>
+  PLAYZONE © 2026 · Your entertainment hub
 </footer>
 
+<div id="player">
+  <div class="playerbox">
+    <div class="playerhead">
+      <strong>🎮 PLAYZONE ARCADE</strong>
+      <button class="btn" id="close">✕ Close game</button>
+    </div>
+    <div id="game"></div>
+  </div>
+</div>
+
 <script>
-const items = [
-  {
-    id: "coolmath",
-    name: "Coolmath Games",
-    type: "games",
-    emoji: "🧩",
-    description: "Puzzles, strategy games and more.",
-    url: "https://www.coolmathgames.com/"
-  },
-  {
-    id: "scratch",
-    name: "Scratch",
-    type: "games",
-    emoji: "🐱",
-    description: "Play games and create your own projects.",
-    url: "https://scratch.mit.edu/"
-  },
-  {
-    id: "pbs",
-    name: "PBS Kids Games",
-    type: "games",
-    emoji: "🎨",
-    description: "Fun games and activities.",
-    url: "https://pbskids.org/games/"
-  },
-  {
-    id: "nasa",
-    name: "NASA Space Place",
-    type: "games",
-    emoji: "🚀",
-    description: "Explore space through interactive activities.",
-    url: "https://spaceplace.nasa.gov/"
-  },
-  {
-    id: "tubi",
-    name: "Tubi",
-    type: "movies",
-    emoji: "🍿",
-    description: "Free movies and TV with ads.",
-    url: "https://tubitv.com/"
-  },
-  {
-    id: "pluto",
-    name: "Pluto TV",
-    type: "movies",
-    emoji: "📺",
-    description: "Free live channels and on-demand shows.",
-    url: "https://pluto.tv/"
-  },
-  {
-    id: "pbs-video",
-    name: "PBS Video",
-    type: "movies",
-    emoji: "🎬",
-    description: "Shows, documentaries and videos.",
-    url: "https://www.pbs.org/video/"
-  },
-  {
-    id: "kanopy",
-    name: "Kanopy",
-    type: "movies",
-    emoji: "🎞️",
-    description: "Movies and documentaries; library access may be required.",
-    url: "https://www.kanopy.com/"
-  }
+const games=[
+ {id:"snake",name:"Snake",emoji:"🐍",type:"classic",desc:"Eat the dots and grow without hitting yourself."},
+ {id:"2048",name:"2048",emoji:"🔢",type:"puzzle",desc:"Combine matching numbers to reach 2048."},
+ {id:"ttt",name:"Tic-Tac-Toe",emoji:"❌",type:"classic",desc:"Challenge a friend on the same device."},
+ {id:"memory",name:"Memory Match",emoji:"🧠",type:"puzzle",desc:"Find all the matching cards."},
+ {id:"reaction",name:"Reaction Test",emoji:"⚡",type:"arcade",desc:"Test how fast you can react."},
+ {id:"pong",name:"Pong",emoji:"🏓",type:"classic",desc:"Play paddle ball against the computer."}
 ];
 
-const library = document.getElementById("library");
-const favorites = document.getElementById("favorites");
-const search = document.getElementById("search");
+const fnaf=[
+ ["Five Nights at Freddy's","319510"],
+ ["Five Nights at Freddy's 2","332800"],
+ ["Five Nights at Freddy's 3","354140"],
+ ["Five Nights at Freddy's 4","388090"],
+ ["Sister Location","506610"],
+ ["Pizzeria Simulator","738060"],
+ ["Ultimate Custom Night","871720"],
+ ["Help Wanted","732690"],
+ ["Security Breach","747660"],
+ ["Help Wanted 2","2287520"]
+];
 
-let activeFilter = "all";
-let saved = JSON.parse(localStorage.getItem("playzone-favorites") || "[]");
+const movies=[
+ {id:"tubi",name:"Tubi",emoji:"🍿",desc:"Free movies and shows with ads.",url:"https://tubitv.com/"},
+ {id:"pluto",name:"Pluto TV",emoji:"📺",desc:"Free live channels and movies.",url:"https://pluto.tv/"},
+ {id:"pbs",name:"PBS Video",emoji:"🎬",desc:"Shows and documentaries.",url:"https://www.pbs.org/video/"},
+ {id:"kanopy",name:"Kanopy",emoji:"🎞️",desc:"Movies through participating libraries.",url:"https://www.kanopy.com/"}
+];
 
-function saveFavorites() {
-  localStorage.setItem("playzone-favorites", JSON.stringify(saved));
+const $=id=>document.getElementById(id);
+let favorites=JSON.parse(localStorage.getItem("pz-favorites")||"[]");
+let filter="all",stopGame=null;
+
+function saveFavorites(){
+ localStorage.setItem("pz-favorites",JSON.stringify(favorites));
 }
-
-function makeCard(item) {
-  const isSaved = saved.includes(item.id);
-
-  return `
-    <article class="item">
-      <div class="emoji">${item.emoji}</div>
-      <h3>${item.name}</h3>
-      <p>${item.description}</p>
-      <div class="item-actions">
-        <a class="open-btn" href="${item.url}"
-          target="_blank" rel="noopener noreferrer">Open ↗</a>
-        <button class="favorite-btn ${isSaved ? "saved" : ""}"
-          data-favorite="${item.id}"
-          aria-label="Toggle favorite">
-          ${isSaved ? "★" : "☆"}
-        </button>
-      </div>
-    </article>
-  `;
+function card(item){
+ return `<article class="card">
+ <div class="emoji">${item.emoji}</div>
+ <h3>${item.name}</h3><p>${item.desc}</p>
+ <div class="actions">
+ <button class="play" data-play="${item.id}">▶ Play now</button>
+ <button class="star ${favorites.includes(item.id)?"saved":""}" data-star="${item.id}">
+ ${favorites.includes(item.id)?"★":"☆"}</button>
+ </div></article>`;
 }
+function externalCard(item){
+ return `<article class="card">
+ <div class="emoji">${item.emoji}</div><h3>${item.name}</h3>
+ <p>${item.desc}</p><div class="actions">
+ <a class="play" href="${item.url}" target="_blank" rel="noopener noreferrer">Open ↗</a>
+ <button class="star ${favorites.includes(item.id)?"saved":""}" data-star="${item.id}">
+ ${favorites.includes(item.id)?"★":"☆"}</button></div></article>`;
+}
+function render(){
+ const q=$("search").value.toLowerCase().trim();
+ const shown=games.filter(g=>
+ (filter==="all"||g.type===filter)&&
+ (g.name+" "+g.desc).toLowerCase().includes(q));
+ $("games").innerHTML=shown.map(card).join("");
 
-function render() {
-  const term = search.value.toLowerCase().trim();
+ $("fnaf").innerHTML=fnaf.filter(([name])=>name.toLowerCase().includes(q))
+ .map(([name,id],i)=>externalCard({
+ id:"fnaf"+i,name,emoji:"🐻",
+ desc:"Official Steam game listing.",
+ url:"https://store.steampowered.com/app/"+id+"/"
+ })).join("");
 
-  const filtered = items.filter(item => {
-    const matchesSearch =
-      item.name.toLowerCase().includes(term) ||
-      item.description.toLowerCase().includes(term);
+ $("movies").innerHTML=movies.filter(m=>
+ (m.name+" "+m.desc).toLowerCase().includes(q)).map(externalCard).join("");
 
-    const matchesFilter =
-      activeFilter === "all" || item.type === activeFilter;
-
-    return matchesSearch && matchesFilter;
+ const allItems=[...games,...movies,...fnaf.map(([name],i)=>({
+ id:"fnaf"+i,name,emoji:"🐻",desc:"FNAF game"
+ }))];
+ const fav=allItems.filter(x=>favorites.includes(x.id));
+ $("favorites").innerHTML=fav.map(x=>{
+  if(x.type)return card(x);
+  if(x.url)return externalCard(x);
+  return externalCard({
+   ...x,url:"https://store.steampowered.com/"
   });
-
-  library.innerHTML = filtered.map(makeCard).join("");
-
-  const favoriteItems = items.filter(item => saved.includes(item.id));
-  favorites.innerHTML = favoriteItems.map(makeCard).join("");
-
-  document.getElementById("emptySearch").style.display =
-    filtered.length ? "none" : "block";
-
-  document.getElementById("emptyFavorites").style.display =
-    favoriteItems.length ? "none" : "block";
+ }).join("");
+ $("noFavorites").style.display=fav.length?"none":"block";
 }
+$("search").addEventListener("input",render);
+document.querySelectorAll("[data-filter]").forEach(b=>{
+ b.addEventListener("click",()=>{
+  filter=b.dataset.filter;
+  document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");render();
+ });
+});
+document.addEventListener("click",e=>{
+ const star=e.target.closest("[data-star]");
+ const play=e.target.closest("[data-play]");
+ if(star){
+  const id=star.dataset.star;
+  favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
+  saveFavorites();render();
+ }
+ if(play)launch(play.dataset.play);
+});
 
-document.addEventListener("click", event => {
-  const button = event.target.closest("[data-favorite]");
-  if (!button) return;
+$("username").value=localStorage.getItem("pz-name")||"";
+function welcome(){ $("welcome").textContent=$("username").value.trim()||"Player"; }
+welcome();
+$("saveName").onclick=()=>{
+ const name=$("username").value.trim();
+ if(!name){$("welcome").textContent="Choose a name first";return;}
+ localStorage.setItem("pz-name",name);welcome();
+};
 
-  const id = button.dataset.favorite;
+if(localStorage.getItem("pz-theme")==="light")document.body.classList.add("light");
+function themeText(){
+ $("theme").textContent=document.body.classList.contains("light")?"🌙 Dark mode":"☀️ Light mode";
+}
+themeText();
+$("theme").onclick=()=>{
+ document.body.classList.toggle("light");
+ localStorage.setItem("pz-theme",document.body.classList.contains("light")?"light":"dark");
+ themeText();
+};
 
-  if (saved.includes(id)) {
-    saved = saved.filter(item => item !== id);
-  } else {
-    saved.push(id);
+function launch(id){
+ $("player").style.display="block";
+ document.body.style.overflow="hidden";
+ if(stopGame){stopGame();stopGame=null;}
+ const start={
+ snake:snakeGame,"2048":game2048,ttt:ticTacToe,
+ memory:memoryGame,reaction:reactionGame,pong:pongGame
+ };
+ start[id]($("game"));
+}
+function closeGame(){
+ if(stopGame){stopGame();stopGame=null;}
+ $("player").style.display="none";
+ $("game").innerHTML="";
+ document.body.style.overflow="";
+}
+$("close").onclick=closeGame;
+$("player").addEventListener("click",e=>{
+ if(e.target===$("player"))closeGame();
+});
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape"&&$("player").style.display==="block")closeGame();
+});
+
+/* SNAKE */
+function snakeGame(el){
+ el.innerHTML=`<h2>🐍 Snake</h2><p>Eat the red dot. Avoid walls and yourself!</p>
+ <canvas id="sc" width="320" height="320"></canvas><p id="ss">Score: 0</p>
+ <div class="controls">
+ <button data-dir="up">⬆️</button><br>
+ <button data-dir="left">⬅️</button><button data-dir="down">⬇️</button><button data-dir="right">➡️</button>
+ </div><button class="primary" id="sr">Restart</button>`;
+ const c=$("sc"),ctx=c.getContext("2d");
+ let body,dir,next,food,score,timer;
+ function draw(){
+  ctx.fillStyle="#101020";ctx.fillRect(0,0,320,320);
+  ctx.fillStyle="#9b65ff";body.forEach(p=>ctx.fillRect(p.x*20+1,p.y*20+1,18,18));
+  ctx.fillStyle="#ff5555";ctx.fillRect(food.x*20+3,food.y*20+3,14,14);
+ }
+ function reset(){
+  body=[{x:8,y:8},{x:7,y:8},{x:6,y:8}];
+  dir={x:1,y:0};next=dir;score=0;
+  food={x:13,y:10};$("ss").textContent="Score: 0";
+  clearInterval(timer);draw();timer=setInterval(tick,125);
+ }
+ function tick(){
+  dir=next;const h={x:body[0].x+dir.x,y:body[0].y+dir.y};
+  if(h.x<0||h.y<0||h.x>=16||h.y>=16||
+  body.some(p=>p.x===h.x&&p.y===h.y)){
+   clearInterval(timer);ctx.fillStyle="white";ctx.font="22px Arial";
+   ctx.fillText("Game over!",100,160);return;
   }
-
-  saveFavorites();
-  render();
-});
-
-search.addEventListener("input", render);
-
-document.querySelectorAll(".filter-btn").forEach(button => {
-  button.addEventListener("click", () => {
-    activeFilter = button.dataset.filter;
-
-    document.querySelectorAll(".filter-btn").forEach(btn =>
-      btn.classList.remove("active")
-    );
-
-    button.classList.add("active");
-    render();
-  });
-});
-
-const themeBtn = document.getElementById("themeBtn");
-
-if (localStorage.getItem("playzone-theme") === "light") {
-  document.body.classList.add("light");
+  body.unshift(h);
+  if(h.x===food.x&&h.y===food.y){
+   score++;$("ss").textContent="Score: "+score;
+   food={x:Math.floor(Math.random()*16),y:Math.floor(Math.random()*16)};
+  }else body.pop();
+  draw();
+ }
+ function set(d){
+  const dirs={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
+  const n=dirs[d];if(n&&!(n.x===-dir.x&&n.y===-dir.y))next=n;
+ }
+ const key=e=>{
+  const m={ArrowUp:"up",w:"up",ArrowDown:"down",s:"down",
+  ArrowLeft:"left",a:"left",ArrowRight:"right",d:"right"};
+  if(m[e.key]){e.preventDefault();set(m[e.key]);}
+ };
+ const click=e=>{if(e.target.dataset.dir)set(e.target.dataset.dir)};
+ document.addEventListener("keydown",key);el.addEventListener("click",click);
+ $("sr").onclick=reset;reset();
+ stopGame=()=>{clearInterval(timer);document.removeEventListener("keydown",key);el.removeEventListener("click",click)};
 }
 
-function updateThemeButton() {
-  themeBtn.textContent = document.body.classList.contains("light")
-    ? "🌙 Dark mode"
-    : "☀️ Light mode";
-}
-
-themeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("light");
-
-  localStorage.setItem(
-    "playzone-theme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
-
-  updateThemeButton();
-});
-
-const profileName = document.getElementById("profileName");
-const profileMessage = document.getElementById("profileMessage");
-
-profileName.value = localStorage.getItem("playzone-profile") || "";
-
-document.getElementById("saveProfile").addEventListener("click", () => {
-  const name = profileName.value.trim();
-
-  if (!name) {
-    profileMessage.textContent = "Enter a username first.";
-    return;
+/* 2048 */
+function game2048(el){
+ el.innerHTML=`<h2>🔢 2048</h2><p>Combine matching tiles. Use arrow keys or swipe.</p>
+ <h3 id="score2048">Score: 0</h3><div class="board" id="board2048"></div>
+ <div class="controls"><button data-move="up">⬆️</button><br>
+ <button data-move="left">⬅️</button><button data-move="down">⬇️</button><button data-move="right">➡️</button></div>
+ <button class="primary" id="reset2048">New game</button>`;
+ let board,score=0;
+ function add(){
+  const empty=[];board.forEach((v,i)=>{if(!v)empty.push(i)});
+  if(empty.length)board[empty[Math.floor(Math.random()*empty.length)]]=Math.random()<.9?2:4;
+ }
+ function draw(){
+  $("board2048").innerHTML=board.map(v=>`<div class="tile">${v||""}</div>`).join("");
+  $("score2048").textContent="Score: "+score;
+ }
+ function reset(){board=Array(16).fill(0);score=0;add();add();draw();}
+ function move(d){
+  const old=board.join(",");
+  for(let n=0;n<4;n++){
+   let indexes=[];
+   for(let k=0;k<4;k++){
+    if(d==="left")indexes.push(n*4+k);
+    if(d==="right")indexes.push(n*4+3-k);
+    if(d==="up")indexes.push(k*4+n);
+    if(d==="down")indexes.push((3-k)*4+n);
+   }
+   const vals=indexes.map(i=>board[i]).filter(Boolean),out=[];
+   for(let j=0;j<vals.length;j++){
+    if(vals[j]===vals[j+1]){out.push(vals[j]*2);score+=vals[j]*2;j++;}
+    else out.push(vals[j]);
+   }
+   indexes.forEach((i,j)=>board[i]=out[j]||0);
   }
+  if(old!==board.join(",")){add();draw();}
+ }
+ const key=e=>{
+  const m={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"};
+  if(m[e.key]){e.preventDefault();move(m[e.key]);}
+ };
+ let sx=0,sy=0;
+ const ts=e=>{sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY;};
+ const te=e=>{
+  const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+  if(Math.max(Math.abs(dx),Math.abs(dy))>25)
+   move(Math.abs(dx)>Math.abs(dy)?(dx>0?"right":"left"):(dy>0?"down":"up"));
+ };
+ const click=e=>{if(e.target.dataset.move)move(e.target.dataset.move);};
+ document.addEventListener("keydown",key);
+ el.addEventListener("touchstart",ts,{passive:true});
+ el.addEventListener("touchend",te,{passive:true});
+ el.addEventListener("click",click);
+ $("reset2048").onclick=reset;reset();
+ stopGame=()=>{
+  document.removeEventListener("keydown",key);
+  el.removeEventListener("touchstart",ts);
+  el.removeEventListener("touchend",te);
+  el.removeEventListener("click",click);
+ };
+}
 
-  localStorage.setItem("playzone-profile", name);
-  profileMessage.textContent = "✓ Saved!";
-});
+/* TIC TAC TOE */
+function ticTacToe(el){
+ el.innerHTML=`<h2>❌ Tic-Tac-Toe</h2><p>Take turns on the same device.</p>
+ <h3 id="ttstatus">X's turn</h3><div class="ttt" id="ttboard"></div>
+ <button class="primary" id="ttreset">Restart</button>`;
+ let cells=Array(9).fill(""),turn="X",done=false;
+ const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+ function draw(){
+  $("ttboard").innerHTML=cells.map((v,i)=>
+   `<button data-cell="${i}">${v}</button>`).join("");
+  $("ttstatus").textContent=done?"Game over":turn+"'s turn";
+ }
+ function click(e){
+  const b=e.target.closest("[data-cell]");if(!b||done)return;
+  const i=Number(b.dataset.cell);if(cells[i])return;
+  cells[i]=turn;
+  const win=wins.some(line=>line.every(j=>cells[j]===turn));
+  if(win){done=true;$("ttstatus").textContent=turn+" wins!";}
+  else if(cells.every(Boolean)){done=true;$("ttstatus").textContent="It's a draw!";}
+  else turn=turn==="X"?"O":"X";
+  draw();
+ }
+ function reset(){cells=Array(9).fill("");turn="X";done=false;draw();}
+ el.addEventListener("click",click);$("ttreset").onclick=reset;reset();
+ stopGame=()=>el.removeEventListener("click",click);
+}
 
-updateThemeButton();
+/* MEMORY MATCH */
+function memoryGame(el){
+ el.innerHTML=`<h2>🧠 Memory Match</h2><p>Find all matching pairs.</p>
+ <h3 id="memstatus">Matches: 0 / 8</h3><div class="memory" id="memboard"></div>
+ <button class="primary" id="memreset">Restart</button>`;
+ const symbols=["🐸","🍕","🚀","🐱","⚽","🍉","🎮","⭐"];
+ let deck=[],first=null,locked=false,matches=0,timer=null;
+ function reset(){
+  if(timer)clearTimeout(timer);
+  deck=[...symbols,...symbols].sort(()=>Math.random()-.5);
+  first=null;locked=false;matches=0;draw();
+ }
+ function draw(){
+  $("memstatus").textContent="Matches: "+matches+" / 8";
+  $("memboard").innerHTML=deck.map((v,i)=>
+   `<button data-card="${i}">${v.open||v.matched?v:"❔"}</button>`).join("");
+ }
+ function click(e){
+  const b=e.target.closest("[data-card]");if(!b||locked)return;
+  const i=Number(b.dataset.card),item=deck[i];
+  if(item.open||item.matched)return;
+  item.open=true;draw();
+  if(first===null){first=i;return;}
+  if(deck[first]===item){
+   deck[first]={...Object(deck[first]),open:true,matched:true};
+   item.matched=true;matches++;first=null;draw();
+   if(matches===8)$("memstatus").textContent="You won! 🎉";
+  }else{
+   const previous=first;first=null;locked=true;
+   timer=setTimeout(()=>{
+    deck[previous].open=false;item.open=false;locked=false;draw();
+   },750);
+  }
+ }
+ el.addEventListener("click",click);$("memreset").onclick=reset;reset();
+ stopGame=()=>{if(timer)clearTimeout(timer);el.removeEventListener("click",click)};
+}
+
+/* REACTION TEST */
+function reactionGame(el){
+ el.innerHTML=`<h2>⚡ Reaction Test</h2>
+ <p>Tap the button when it turns green.</p>
+ <button id="react" class="primary" style="width:90%;min-height:150px;font-size:20px">START</button>
+ <h3 id="reactresult">Ready?</h3>`;
+ let timer=null,start=0,state="ready";
+ const b=$("react");
+ function reset(){
+  clearTimeout(timer);state="ready";b.textContent="START";
+  b.style.background="#8954ee";$("reactresult").textContent="Ready?";
+ }
+ b.onclick=()=>{
+  if(state==="ready"){
+   state="waiting";b.textContent="Wait for green...";
+   b.style.background="#9b65ff";
+   timer=setTimeout(()=>{
+    state="go";start=performance.now();b.textContent="TAP NOW!";
+    b.style.background="#16a34a";
+   },1000+Math.random()*3000);
+  }else if(state==="waiting"){
+   clearTimeout(timer);state="ready";
+   $("reactresult").textContent="Too early! Try again.";
+   b.textContent="TRY AGAIN";
+  }else if(state==="go"){
+   const time=Math.round(performance.now()-start);
+   state="ready";$("reactresult").textContent="Your time: "+time+" ms";
+   b.textContent="TRY AGAIN";b.style.background="#8954ee";
+  }else reset();
+ };
+ stopGame=()=>clearTimeout(timer);
+}
+
+/* PONG */
+function pongGame(el){
+ el.innerHTML=`<h2>🏓 Pong</h2><p>Move your paddle with the buttons or arrow keys.</p>
+ <canvas id="pongCanvas" width="320" height="400"></canvas>
+ <h3 id="pongScore">You: 0 | Computer: 0</h3>
+ <button data-paddle="up">⬆️</button>
+ <button data-paddle="down">⬇️</button>
+ <button class="primary" id="pongStart">Start / Restart</button>`;
+ const c=$("pongCanvas"),ctx=c.getContext("2d");
+ let y=165,cy=165,x=160,by=200,vx=3,vy=2,player=0,computer=0,running=false,raf;
+ function reset(){
+  player=0;computer=0;y=165;cy=165;x=160;by=200;vx=3;vy=2;
+  running=true;$("pongScore").textContent="You: 0 | Computer: 0";
+  if(raf)cancelAnimationFrame(raf);loop();
+ }
+ function loop(){
+  if(!running)return;
+  ctx.fillStyle="#080811";ctx.fillRect(0,0,320,400);
+  ctx.fillStyle="#fff";ctx.fillRect(12,y,10,75);ctx.fillRect(298,cy,10,75);
+  ctx.beginPath();ctx.arc(x,by,8,0,Math.PI*2);ctx.fill();
+  x+=vx;by+=vy;cy+=((by-37.5)-cy)*.045;
+  if(by<8||by>392)vy=-vy;
+  if(x<27&&x>15&&by>y&&by<y+75)vx=Math.abs(vx);
+  if(x>293&&x<305&&by>cy&&by<cy+75)vx=-Math.abs(vx);
+  if(x<0){computer++;serve();}
+  if(x>320){player++;serve();}
+  $("pongScore").textContent="You: "+player+" | Computer: "+computer;
+  raf=requestAnimationFrame(loop);
+ }
+ function serve(){x=160;by=200;vx=player>computer?3:-3;vy=2;}
+ function move(e){
+  if(e.key==="ArrowUp"){e.preventDefault();y=Math.max(0,y-22);}
+  if(e.key==="ArrowDown"){e.preventDefault();y=Math.min(325,y+22);}
+ }
+ const click=e=>{
+  if(e.target.dataset.paddle==="up")y=Math.max(0,y-25);
+  if(e.target.dataset.paddle==="down")y=Math.min(325,y+25);
+ };
+ document.addEventListener("keydown",move);el.addEventListener("click",click);
+ $("pongStart").onclick=reset;reset();
+ stopGame=()=>{running=false;cancelAnimationFrame(raf);document.removeEventListener("keydown",move);el.removeEventListener("click",click)};
+}
+
 render();
 </script>
-
 </body>
 </html>
