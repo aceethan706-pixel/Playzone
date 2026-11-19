@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLAYZONE | Game & Movie Hub</title>
+
+<style>
+:root {
+  --bg: #090914;
+  --panel: #151527;
+  --card: #1d1d35;
+  --text: #ffffff;
+  --muted: #aaaac0;
+  --accent: #9b65ff;
+  --accent2: #4b9cff;
+  --border: #30304b;
+}
+
+body.light {
+  --bg: #f3f2fa;
+  --panel: #ffffff;
+  --card: #e8e5f5;
+  --text: #171526;
+  --muted: #666477;
+  --border: #d5d1e5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+  transition: background .3s, color .3s;
+}
+
+header {
+  padding: 22px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.small-btn, .filter-btn {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--card);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.small-btn:hover, .filter-btn:hover {
+  border-color: var(--accent);
+}
+
+.hero {
+  text-align: center;
+  padding: 65px 20px 35px;
+  animation: appear .7s ease;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 7vw, 58px);
+  margin: 0 0 12px;
+}
+
+.hero h1 span {
+  color: var(--accent);
+}
+
+.hero p {
+  color: var(--muted);
+}
+
+.search-wrap {
+  max-width: 620px;
+  margin: 25px auto;
+  padding: 0 15px;
+}
+
+#search {
+  width: 100%;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--text);
+  outline: none;
+}
+
+#search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 15px #9b65ff55;
+}
+
+.profile {
+  max-width: 620px;
+  margin: 20px auto;
+  padding: 15px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile input {
+  flex: 1;
+  min-width: 130px;
+  padding: 11px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 9px;
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 30px 0 18px;
+}
+
+.section-heading h2 {
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  animation: appear .4s ease;
+  transition: transform .2s, border-color .2s;
+}
+
+.item:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.item .emoji {
+  font-size: 34px;
+}
+
+.item h3 {
+  margin: 12px 0 7px;
+}
+
+.item p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.open-btn {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(100deg, var(--accent), var(--accent2));
+  padding: 11px;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+.favorite-btn {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+
+.favorite-btn.saved {
+  color: #ffd34e;
+  border-color: #ffd34e;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 20px 0;
+  display: none;
+}
+
+footer {
+  text-align: center;
+  padding: 35px 15px;
+  margin-top: 45px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media(max-width: 500px) {
+  header {
+    padding: 16px;
+  }
+  .logo {
+    font-size: 22px;
+  }
+  main {
+    padding: 15px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">PLAY<span>ZONE</span></div>
+  <button class="small-btn" id="themeBtn">☀️ Light mode</button>
+</header>
+
+<section class="hero">
+  <h1>WELCOME TO <span>PLAYZONE</span></h1>
+  <p>Your entertainment hub. Find something fun to play or watch.</p>
+</section>
+
+<div class="search-wrap">
+  <input id="search" type="search"
+    placeholder="🔎 Search games and movies...">
+</div>
+
+<div class="profile">
+  <span>👤 Profile:</span>
+  <input id="profileName" maxlength="24" placeholder="Enter your username">
+  <button class="small-btn" id="saveProfile">Save</button>
+  <span id="profileMessage"></span>
+</div>
+
+<main>
+
+  <div class="section-heading">
+    <h2>⭐ Your Favorites</h2>
+  </div>
+  <div class="grid" id="favorites"></div>
+  <p class="empty" id="emptyFavorites">No favorites yet. Tap ☆ on an item to save it!</p>
+
+  <div class="section-heading">
+    <h2>🎮 Game Library</h2>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="games">Games</button>
+    <button class="filter-btn" data-filter="movies">Movies</button>
+  </div>
+
+  <div class="grid" id="library"></div>
+  <p class="empty" id="emptySearch">No results found. Try another search.</p>
+
+</main>
+
+<footer>
+  <p>PLAYZONE © 2026</p>
+  <p>Independent entertainment directory. External websites have their own rules and content.</p>
+</footer>
+
+<script>
+const items = [
+  {
+    id: "coolmath",
+    name: "Coolmath Games",
+    type: "games",
+    emoji: "🧩",
+    description: "Puzzles, strategy games and more.",
+    url: "https://www.coolmathgames.com/"
+  },
+  {
+    id: "scratch",
+    name: "Scratch",
+    type: "games",
+    emoji: "🐱",
+    description: "Play games and create your own projects.",
+    url: "https://scratch.mit.edu/"
+  },
+  {
+    id: "pbs",
+    name: "PBS Kids Games",
+    type: "games",
+    emoji: "🎨",
+    description: "Fun games and activities.",
+    url: "https://pbskids.org/games/"
+  },
+  {
+    id: "nasa",
+    name: "NASA Space Place",
+    type: "games",
+    emoji: "🚀",
+    description: "Explore space through interactive activities.",
+    url: "https://spaceplace.nasa.gov/"
+  },
+  {
+    id: "tubi",
+    name: "Tubi",
+    type: "movies",
+    emoji: "🍿",
+    description: "Free movies and TV with ads.",
+    url: "https://tubitv.com/"
+  },
+  {
+    id: "pluto",
+    name: "Pluto TV",
+    type: "movies",
+    emoji: "📺",
+    description: "Free live channels and on-demand shows.",
+    url: "https://pluto.tv/"
+  },
+  {
+    id: "pbs-video",
+    name: "PBS Video",
+    type: "movies",
+    emoji: "🎬",
+    description: "Shows, documentaries and videos.",
+    url: "https://www.pbs.org/video/"
+  },
+  {
+    id: "kanopy",
+    name: "Kanopy",
+    type: "movies",
+    emoji: "🎞️",
+    description: "Movies and documentaries; library access may be required.",
+    url: "https://www.kanopy.com/"
+  }
+];
+
+const library = document.getElementById("library");
+const favorites = document.getElementById("favorites");
+const search = document.getElementById("search");
+
+let activeFilter = "all";
+let saved = JSON.parse(localStorage.getItem("playzone-favorites") || "[]");
+
+function saveFavorites() {
+  localStorage.setItem("playzone-favorites", JSON.stringify(saved));
+}
+
+function makeCard(item) {
+  const isSaved = saved.includes(item.id);
+
+  return `
+    <article class="item">
+      <div class="emoji">${item.emoji}</div>
+      <h3>${item.name}</h3>
+      <p>${item.description}</p>
+      <div class="item-actions">
+        <a class="open-btn" href="${item.url}"
+          target="_blank" rel="noopener noreferrer">Open ↗</a>
+        <button class="favorite-btn ${isSaved ? "saved" : ""}"
+          data-favorite="${item.id}"
+          aria-label="Toggle favorite">
+          ${isSaved ? "★" : "☆"}
+        </button>
+      </div>
+    </article>
+  `;
+}
+
+function render() {
+  const term = search.value.toLowerCase().trim();
+
+  const filtered = items.filter(item => {
+    const matchesSearch =
+      item.name.toLowerCase().includes(term) ||
+      item.description.toLowerCase().includes(term);
+
+    const matchesFilter =
+      activeFilter === "all" || item.type === activeFilter;
+
+    return matchesSearch && matchesFilter;
+  });
+
+  library.innerHTML = filtered.map(makeCard).join("");
+
+  const favoriteItems = items.filter(item => saved.includes(item.id));
+  favorites.innerHTML = favoriteItems.map(makeCard).join("");
+
+  document.getElementById("emptySearch").style.display =
+    filtered.length ? "none" : "block";
+
+  document.getElementById("emptyFavorites").style.display =
+    favoriteItems.length ? "none" : "block";
+}
+
+document.addEventListener("click", event => {
+  const button = event.target.closest("[data-favorite]");
+  if (!button) return;
+
+  const id = button.dataset.favorite;
+
+  if (saved.includes(id)) {
+    saved = saved.filter(item => item !== id);
+  } else {
+    saved.push(id);
+  }
+
+  saveFavorites();
+  render();
+});
+
+search.addEventListener("input", render);
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+
+    document.querySelectorAll(".filter-btn").forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    render();
+  });
+});
+
+const themeBtn = document.getElementById("themeBtn");
+
+if (localStorage.getItem("playzone-theme") === "light") {
+  document.body.classList.add("light");
+}
+
+function updateThemeButton() {
+  themeBtn.textContent = document.body.classList.contains("light")
+    ? "🌙 Dark mode"
+    : "☀️ Light mode";
+}
+
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+
+  localStorage.setItem(
+    "playzone-theme",
+    document.body.classList.contains("light") ? "light" : "dark"
+  );
+
+  updateThemeButton();
+});
+
+const profileName = document.getElementById("profileName");
+const profileMessage = document.getElementById("profileMessage");
+
+profileName.value = localStorage.getItem("playzone-profile") || "";
+
+document.getElementById("saveProfile").addEventListener("click", () => {
+  const name = profileName.value.trim();
+
+  if (!name) {
+    profileMessage.textContent = "Enter a username first.";
+    return;
+  }
+
+  localStorage.setItem("playzone-profile", name);
+  profileMessage.textContent = "✓ Saved!";
+});
+
+updateThemeButton();
+render();
+</script>
+
+</body>
+</html>
